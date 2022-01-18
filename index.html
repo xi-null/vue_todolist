@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+    <div id="app">
+        <div id="vue-todolist" class="todolistDiv">
+            <span> To Do List</span>
+            <input class="ipt" type="text" v-model="inputVaule" @keyup.enter="add()"/>
+            <button @click=""  class="btn">add</button>
+            <h1 style="border-bottom: 1px solid red">To Do List</h1>
+            <div v-for="(item, i) in items" :key="i">
+                <div>
+          <span
+                  v-if="item.change == false"
+                  :style="{
+              textDecoration: item.finish ? 'line-through' : '',
+              color: item.finish ? '#e6e6e6' : 'black',
+            }"
+          >{{ item.content }}</span
+          >
+                    <input v-else type="text" v-model="item.content" />
+                </div>
+                <div>
+                    <button @click="del(i)">删除</button>
+                    <button @click="finish(i)">完成</button>
+                    <button @click="change(i)">更改</button>
+                </div>
+            </div>
+        </div>
+
+    </div>
+    <script src="./vue/vue@2.js"></script>
+    <script>
+        var app = new Vue({
+            el: '#app',
+            data: {
+                items: [
+                    {
+                        content: "吃饭",
+                        finish: false,
+                        change: false,
+                    },
+                    {
+                        content: "睡觉",
+                        finish: false,
+                        change: false,
+                    },
+                ],
+                inputVaule: "",
+            },
+            methods: {
+                add() {
+                    if (this.inputVaule === ''){
+                        return
+                    } else {
+                        this.items.push({
+                            content: this.inputVaule,
+                            finish: false,
+                            change: false,
+                        });
+                        this.inputVaule = "";
+                    }
+                },
+                del(i) {
+                    this.items.splice(i, 1);
+                },
+                finish(i) {
+                    this.items[i].finish = true;
+                    console.log(this.items[i]);
+                },
+                change(i) {
+                    this.items[i].change = !this.items[i].change;
+                    this.items[i].finish = false;
+                },
+            },
+
+        })
+    </script>
+</body>
+</html>
